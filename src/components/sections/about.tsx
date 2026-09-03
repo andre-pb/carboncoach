@@ -9,6 +9,10 @@ export function About() {
   return (
     <section id="about" className="scroll-mt-20 bg-white py-20 sm:py-28">
       <div className="container-x grid items-start gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-20">
+        {/* On phones/tablets the heading sits above the photo; on large
+            screens it moves into the text column (see below). */}
+        <SectionHeading title={about.heading} className="-mb-2 lg:hidden" />
+
         <div className="relative mx-auto w-full max-w-sm lg:mx-0">
           <div
             aria-hidden
@@ -28,8 +32,8 @@ export function About() {
         </div>
 
         <div>
-          <SectionHeading title={about.heading} />
-          <p className="mt-8 text-2xl font-medium leading-snug text-teal sm:text-3xl">
+          <SectionHeading title={about.heading} className="hidden lg:flex" />
+          <p className="mt-0 text-2xl lg:mt-8 font-medium leading-snug text-teal sm:text-3xl">
             {about.lead}
           </p>
           <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
