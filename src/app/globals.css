@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Palette sampled from the Carbon Coach logo:
+  navy   #0c2f3e   teal #0d7568   green #90ae48 / #a2ba61   amber #efa30f
+*/
+:root {
+  --radius: 0.625rem;
+
+  --background: #f8f8f5;
+  --foreground: #0c2f3e;
+
+  --card: #ffffff;
+  --card-foreground: #0c2f3e;
+
+  --popover: #ffffff;
+  --popover-foreground: #0c2f3e;
+
+  --primary: #0c2f3e;
+  --primary-foreground: #f8f8f5;
+
+  --secondary: #e9efe6;
+  --secondary-foreground: #0c2f3e;
+
+  --muted: #eef0ec;
+  --muted-foreground: #4f6470;
+
+  --accent: #efa30f;
+  --accent-foreground: #0c2f3e;
+
+  --destructive: #c2410c;
+
+  --border: #dfe4df;
+  --input: #d5dcd6;
+  --ring: #0d7568;
+
+  --navy: #0c2f3e;
+  --navy-deep: #082230;
+  --teal: #0d7568;
+  --green: #90ae48;
+  --green-light: #a2ba61;
+  --amber: #efa30f;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-teal: var(--teal);
+  --color-green: var(--green);
+  --color-green-light: var(--green-light);
+  --color-amber: var(--amber);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+}
+
+/* ---- Logo marquee ------------------------------------------------------ */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* soft fade at both edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  padding-block: 0.5rem;
+  animation: marquee 45s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  flex: none;
+  padding-inline: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    mask-image: none;
+  }
+  .marquee-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1rem;
+    padding-inline: 1.25rem;
+  }
+  .marquee-dup {
+    display: none;
+  }
+}
