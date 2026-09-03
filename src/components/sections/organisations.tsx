@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { organisations } from "@/lib/site";
 import { asset, cn } from "@/lib/utils";
+import { LogoMarquee } from "@/components/logo-marquee";
 
 function LogoTile({ org }: { org: (typeof organisations.items)[number] }) {
   const tile = (
@@ -18,6 +19,7 @@ function LogoTile({ org }: { org: (typeof organisations.items)[number] }) {
           width={240}
           height={80}
           unoptimized
+          draggable={false}
           className="max-h-14 w-auto max-w-[80%] object-contain sm:max-h-[4.5rem]"
         />
       ) : (
@@ -34,6 +36,7 @@ function LogoTile({ org }: { org: (typeof organisations.items)[number] }) {
       target="_blank"
       rel="noreferrer"
       aria-label={org.name}
+      draggable={false}
       className="block rounded-xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
     >
       {tile}
@@ -53,27 +56,14 @@ export function Organisations() {
         {organisations.heading}
       </h2>
 
-      {/* Infinite marquee: the list is rendered twice and the track slides by
-          exactly half its width, so the loop is seamless. Pauses on hover;
-          falls back to a static wrapped grid for prefers-reduced-motion. */}
-      <div className="marquee mt-10">
-        <ul className="marquee-track">
-          {organisations.items.map((org) => (
-            <li key={org.name} className="marquee-item">
-              <LogoTile org={org} />
-            </li>
-          ))}
-          {organisations.items.map((org) => (
-            <li
-              key={`${org.name}-dup`}
-              className="marquee-item marquee-dup"
-              aria-hidden
-            >
-              <LogoTile org={org} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Infinite, swipeable logo strip (see LogoMarquee). */}
+      <LogoMarquee className="mt-10" speed={1}>
+        {organisations.items.map((org) => (
+          <li key={org.name} className="min-w-0 flex-none px-2">
+            <LogoTile org={org} />
+          </li>
+        ))}
+      </LogoMarquee>
     </section>
   );
 }
